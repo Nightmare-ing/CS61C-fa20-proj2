@@ -1,3 +1,4 @@
+from array import array
 from unittest import TestCase
 from framework import AssemblyTest, print_coverage
 
@@ -18,6 +19,13 @@ class TestAbs(TestCase):
         # same as test_zero, but with input 1
         t = AssemblyTest(self, "abs.s")
         t.input_scalar("a0", 1)
+        t.call("abs")
+        t.check_scalar("a0", 1)
+        t.execute()
+
+    def test_minus_one(self):
+        t = AssemblyTest(self, "abs.s")
+        t.input_scalar("a0", -1)
         t.call("abs")
         t.check_scalar("a0", 1)
         t.execute()
