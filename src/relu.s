@@ -21,7 +21,7 @@ relu:
     # Prologue
 
 loop_start:
-    bne t0, a1, loop_continue
+    blt t0, a1, loop_continue
     j loop_end
 loop_continue:
     slli t1, t0, 2

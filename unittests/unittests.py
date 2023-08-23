@@ -61,7 +61,7 @@ class TestRelu(TestCase):
 
     def test_zero(self):
         t = AssemblyTest(self, "relu.s")
-        array0 = t.array([0, 0, 1, -2, 3 ,-4, 5])
+        array0 = t.array([-1, 0, 1, -2, 3 ,-4, 5])
         t.input_array("a0", array0)
         t.input_scalar("a1", len(array0))
         t.call("relu")
