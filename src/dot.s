@@ -19,17 +19,15 @@
 # =======================================================
 dot:
     blt x0, a2, check_strides
-    li a0, 17
     li a1, 75
-    ecall
+    jal exit2
 check_strides:
     slt t0, x0, a3
     slt t1, x0, a4
     and t0, t0, t1
     bne x0, t0, loop_start
-    li a0, 17
     li a1, 76
-    ecall
+    jal exit2
 
 loop_start:
     # Prologue

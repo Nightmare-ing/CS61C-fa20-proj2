@@ -16,9 +16,8 @@
 # =================================================================
 argmax:
     blt x0, a1, loop_start
-    li a0, 17
     li a1, 77
-    ecall
+    jal exit2
     # Prologue
 
 loop_start:

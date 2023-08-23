@@ -24,28 +24,24 @@
 #     this function terminates the program with exit code 74.
 # =======================================================
 matmul:
-
     # Error checks
     slt t0, x0, a1
     slt t1, x0, a2
     and t0, t0, t1
     bne x0, t0, check_m1
-    li a0, 17
     li a1, 72
-    ecall
+    jal exit2
 check_m1:
     slt t0, x0, a4
     slt t1, x0, a5
     and t0, t0, t1
     bne x0, t0, check_match
-    li a0, 17
     li a1, 73
-    ecall
+    jal exit2
 check_match:
     beq a2, a4, check_done
-    li a0, 17
     li a1, 74
-    ecall
+    jal exit2
 check_done:
     # Prologue
     addi sp, sp, -44
