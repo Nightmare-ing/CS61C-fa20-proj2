@@ -15,20 +15,30 @@
 #   this function terminates the program with error code 77.
 # =================================================================
 argmax:
-
+    blt x0, a1, loop_start
+    li a0, 17
+    li a1, 77
+    ecall
     # Prologue
 
-
 loop_start:
-
-
+    li t0, 1 # the current index
+    lw t1, 0(a0) # default largest element
+    mv t4, x0 # index of default largest element
 loop_continue:
-
-
+    bge t0, a1, loop_end
+    slli t2, t0, 2
+    add t2, t2, a0
+    lw t3, 0(t2)
+    bge t1, t3, done
+    mv t1, t3
+    mv t4, t0
+done:
+    addi t0, t0, 1
+    j loop_continue
+   
 loop_end:
-    
-
+    mv a0, t4
     # Epilogue
-
 
     ret
