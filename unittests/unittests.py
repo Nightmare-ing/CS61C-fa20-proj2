@@ -57,7 +57,7 @@ class TestRelu(TestCase):
         t.input_array("a0", array0)
         t.input_scalar("a1", len(array0))
         t.call("relu")
-        t.execute()
+        t.execute(code=78)
 
     def test_zero(self):
         t = AssemblyTest(self, "relu.s")
@@ -130,7 +130,7 @@ class TestArgmax(TestCase):
         # call the `argmax` function
         t.call("argmax")
         # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
-        t.execute()
+        t.execute(code=77)
 
     @classmethod
     def tearDownClass(cls):
@@ -184,7 +184,7 @@ class TestDot(TestCase):
         t.input_scalar("a3", 1)
         t.input_scalar("a4", 1)
         t.call("dot")
-        t.execute()
+        t.execute(code=75)
 
     def test_stride_nonpositive1(self):
         t = AssemblyTest(self, "dot.s")
@@ -196,7 +196,7 @@ class TestDot(TestCase):
         t.input_scalar("a3", 0)
         t.input_scalar("a4", 1)
         t.call("dot")
-        t.execute()
+        t.execute(code=76)
 
     def test_stride_nonpositive2(self):
         t = AssemblyTest(self, "dot.s")
@@ -208,7 +208,7 @@ class TestDot(TestCase):
         t.input_scalar("a3", 1)
         t.input_scalar("a4", 0)
         t.call("dot")
-        t.execute()
+        t.execute(code=76)
 
     @classmethod
     def tearDownClass(cls):
@@ -264,21 +264,24 @@ class TestMatmul(TestCase):
         self.do_matmul(
             [], 0, 0, 
             [1, 2, 3, 4, 5, 6], 3, 2, 
-            [1]
+            [1],
+            code=72
         )
 
     def test_invalid_dim_m1(self):
         self.do_matmul(
             [1, 2, 3, 4, 5, 6], 2, 3, 
             [], 0, 0, 
-            [1]
+            [1],
+            code=73
         )
 
     def test_dim_not_match(self):
         self.do_matmul(
             [1, 2, 3, 4, 5, 6], 2, 3, 
             [1, 2, 3, 4, 5, 6], 2, 3, 
-            [1]
+            [1], 
+            code=74
         )
 
     @classmethod
@@ -338,14 +341,29 @@ class TestWriteMatrix(TestCase):
         # load output file name into a0 register
         t.input_write_filename("a0", outfile)
         # load input array and other arguments
-        raise NotImplementedError("TODO")
-        # TODO
+        array0 = t.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        t.input_array("a1", array0)
+        t.input_scalar("a2", 3)
+        t.input_scalar("a3", 3)
         # call `write_matrix` function
         t.call("write_matrix")
         # generate assembly and run it through venus
         t.execute(fail=fail, code=code)
         # compare the output file against the reference
-        t.check_file_output(outfile, "outputs/test_write_matrix/reference.bin")
+        if fail == '':
+            t.check_file_output(outfile, "outputs/test_write_matrix/reference.bin")
+
+    def test_malloc(self):
+        self.do_write_matrix(fail='malloc', code=88)
+
+    def test_fopen(self):
+        self.do_write_matrix(fail='fopen', code=93)
+
+    def test_fwrite(self):
+        self.do_write_matrix(fail='fwrite', code=94)
+
+    def test_fclose(self):
+        self.do_write_matrix(fail='fclose', code=95)
 
     def test_simple(self):
         self.do_write_matrix()
