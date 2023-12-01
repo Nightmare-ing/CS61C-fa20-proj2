@@ -25,4 +25,5 @@
 ```
 
 
-## Here's what I did in project 2:
+My Solution for CS61C fa20 version project2, what I did including environment setup 
+is recorded in commits messages.
